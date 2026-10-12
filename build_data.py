@@ -1,0 +1,117 @@
+"""Extract the data the scrolly needs from the Home by Home portal build into data.js.
+
+Only asset-group and home-level fields used by the scrolly are kept. Addresses,
+property references and any summary sentence naming a home are dropped, and asset
+group names are replaced with "Greenwich Estate N", so the page can be shared
+outside the client team.
+
+    python build_data.py
+"""
+import json
+import random
+import re
+from pathlib import Path
+
+PORTAL = Path(r"G:\Shared drives\DG Cities\Projects\HomeByHomePlatform\HTML_Prototype\Portal\HbH_Portal.html")
+OUT = Path(__file__).with_name("data.js")
+
+POSTCODE = re.compile(r"\b[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}\b")
+COMPS = ["Roof", "Door", "Window", "Kitchen", "Bathroom", "Damp_Mould"]
+HEALTH_KEYS = ["copd_asthma.p_rate", "respiratory.p_rate", "cvd.p_rate", "burns_falls_65_ova.p_rate"]
+
+
+def grab(lines, name):
+    """Parse the JSON literal assigned to `const <name> =` in the portal."""
+    for line in lines:
+        if re.match(rf"\s*const {name}\s*=", line):
+            body = line.split("=", 1)[1].strip().rstrip(";")
+            return json.loads(body)
+    raise KeyError(name)
+
+
+def strip_named_homes(text):
+    """Drop sentences from a generated summary that name an address."""
+    sentences = re.split(r"(?<=\.)\s+", text or "")
+    return " ".join(s for s in sentences if not POSTCODE.search(s))
+
+
+def main():
+    lines = PORTAL.read_text(encoding="utf-8").split("\n")
+
+    # Overview: one row per asset group with component RAGs
+    ov = []
+    for r in grab(lines, "DATA"):
+        if not r.get("Asset Group") or r["Asset Group"] == "0":
+            continue
+        ov.append({
+            "ag": r["Asset Group"], "ward": r.get("ward"), "lat": r.get("lat"), "lon": r.get("lon"),
+            "total": r.get("total", 0), "lease": r.get("leasehold", 0),
+            "rag": "".join((r.get(c + "_RAG") or "G")[0] for c in COMPS),
+            "red": r.get("Overall_Red_Count", 0), "amber": r.get("Overall_Amber_Count", 0),
+        })
+
+    # Stock condition tracker
+    sc = grab(lines, "SC_DATA")
+    sc_rows = []
+    for r in sc["rows"]:
+        cd = r.get("cons_detail") or {}
+        main_c = max(cd.items(), key=lambda kv: kv[1])[0] if cd else r.get("consultant")
+        sc_rows.append({k: r.get(k) for k in [
+            "ag", "total", "surveyed", "not_surveyed", "last_survey", "status",
+            "bathroom_due", "kitchen_due", "roof_due", "heating_due", "electrical_due"]} | {"cons": main_c})
+
+    # Repairs by asset group (no property rows)
+    rp = grab(lines, "REPAIRS_DATA")
+    rp_ags = [{"ag": a["ag"], "ward": a["ward"], "h": a["h"], "n": a["n"], "c": a["c"],
+               "fy": a["fy"], "cost": a["cost"], "s": strip_named_homes(a["s"])} for a in rp["ags"]]
+    assert not any(POSTCODE.search(a["s"]) for a in rp_ags), "address left in a repairs summary"
+
+    # Warm homes: retrofit priority homes, no addresses
+    # [lat, lon, agIdx, typeIdx, lease(0/1), epc, sap, damp, asthma, mould, fabricDue(0/1)]
+    whf = grab(lines, "WHF_DATA")
+    homes = []
+    for h in whf["homes"]:
+        if h[0] is None:
+            continue
+        fabric = int(any(h[i] and h[i] <= 2030 for i in (8, 9, 10, 11)))
+        homes.append([round(h[0], 5), round(h[1], 5), h[2], h[4], int(h[5] == "LEASE"),
+                      h[6] or "", h[7] or 0, h[12] or 0, h[13], h[14] or 0, fabric])
+    whf_out = {"types": whf["types"], "mould_min": whf["mould_min"], "asthma": whf["asthma"],
+               "ags": whf["ags"], "homes": homes}
+
+    # Health: LSOA shapes with a few QOF indicators per map area
+    hd = grab(lines, "HEALTH_DATA")
+    areas = {}
+    for k, a in hd["areas"].items():
+        vals = {}
+        for key in HEALTH_KEYS:
+            v = [hd["lsoa11"][p]["v"].get(key) for p in a["parts"] if p in hd["lsoa11"]]
+            v = [x for x in v if x is not None]
+            vals[key.split(".")[0]] = round(sum(v) / len(v), 4) if v else None
+        areas[k] = {"n": a["n"], "homes": a["homes"], "v": vals}
+
+    # Replace real asset group names with "Greenwich Estate N", consistently across all tables.
+    # Numbers are assigned in a fixed shuffled order so they don't follow the alphabetical order of the real names.
+    real = sorted({r["ag"] for r in ov} | {r["ag"] for r in sc_rows} | {a["ag"] for a in rp_ags} | {a["ag"] for a in whf["ags"]})
+    random.Random(2026).shuffle(real)
+    alias = {name: f"Greenwich Estate {i}" for i, name in enumerate(real, 1)}
+    for rows in (ov, sc_rows, rp_ags):
+        for r in rows:
+            r["ag"] = alias[r["ag"]]
+    whf_out["ags"] = [a | {"ag": alias[a["ag"]]} for a in whf["ags"]]
+
+    out = {
+        "fy": grab(lines, "FY_DATA"),
+        "ov": ov,
+        "sc": {"kpis": sc["kpis"], "rows": sc_rows},
+        "rp": {"cats": rp["cats"], "fys": rp["fys"], "borough": rp["borough"], "ags": rp_ags},
+        "whf": whf_out,
+        "health": {"areas": areas, "geo": hd["geo"]},
+    }
+    OUT.write_text("// Generated by build_data.py from HbH_Portal.html — do not edit by hand\nconst HBH = "
+                   + json.dumps(out, separators=(",", ":")) + ";\n", encoding="utf-8")
+    print(f"Wrote {OUT.name}: {OUT.stat().st_size/1e6:.2f} MB · {len(ov)} asset groups · {len(homes)} homes")
+
+
+if __name__ == "__main__":
+    main()

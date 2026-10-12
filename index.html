@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health-led Housing Investment</title>
+<meta name="description" content="Why data-driven housing investment matters, and where health comes in. DG Cities, Home by Home.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════ INTRO ═══════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">DG Cities · Home by Home</div>
+    <h1>Why data-driven housing investment matters</h1>
+    <p class="hero-sub">…and where health comes in</p>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">Scroll<span></span></div>
+</header>
+
+<section class="prose">
+  <p class="lede">Today, the social housing sector plans its investment around component replacement cycles. A kitchen is 20 years old, so we replace it. A roof is 30 years old, so we should have a look at it.</p>
+  <p>At best, capital investment is prioritised on the physical condition of the housing stock alone. This overlooks the direct impact that living environments have on residents' health, and the costs that falls on other public services, particularly the NHS. The system is fundamentally unoptimised: it spends on treatment rather than on prevention by fixing the root cause of poor health. That is the opposite of what government priorities, and logic, suggest we should be doing.</p>
+  <p>The same approach applies to large government funding streams such as the Warm Homes: Social Housing Fund, which is distributing over £1 billion in Wave 3. That follows £1 billion spent under previous governments, before counting the match funding provided by housing associations themselves.</p>
+
+  <div class="fund-strip">
+    <div><b>£1bn+</b><span>Wave 3 funding</span></div>
+    <div><b>£1bn</b><span>earlier waves</span></div>
+    <div class="zero"><b>£0</b><span>targeted specifically at people in poor health</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT 1: THE TOOL ═══════════════ -->
+<section class="scrolly" id="act1">
+  <div class="graphic">
+    <div class="frame" id="frame1" data-state="tracker">
+      <div class="chrome">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="chrome-title">Home by Home · Intelligence Portal</span>
+        <span class="chrome-tab" id="tab1">Stock condition</span>
+      </div>
+      <div class="stage hbh">
+        <div class="panel" id="p-tracker">
+          <div class="card fill">
+            <div class="card-title">Asset group survey tracker — element replacement years</div>
+            <div class="tbl-wrap auto" id="sc-table"></div>
+          </div>
+        </div>
+        <div class="panel" id="p-repairs">
+          <div class="card fill">
+            <div class="card-title">Repairs by asset group <span class="card-note">April 2023 – March 2026 · shading shows repairs per home above the borough rate</span></div>
+            <div class="tbl-wrap auto" id="rp-table"></div>
+          </div>
+        </div>
+        <div class="panel" id="p-overview">
+          <div class="ov-head">
+            <h3>Housing stock overview</h3>
+            <div class="kpi-row" id="ov-kpis"></div>
+          </div>
+          <div class="ov-body">
+            <div class="card map-card"><div id="ov-map" class="map"></div></div>
+            <div class="card ov-list">
+              <div class="card-title">Prioritised asset groups</div>
+              <div class="tbl-wrap auto" id="ov-table"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step" data-step="tracker">
+      <p>DG Cities has developed a tool that brings together every available social housing dataset: stock condition surveys, repairs history, resident complaints, EPC data and more.</p>
+      <p class="hint">Here, the survey tracker: when each element in every asset group is due for replacement.</p>
+    </div>
+    <div class="step" data-step="repairs">
+      <p>Alongside the surveys sits three years of repairs history, so we can see which homes keep failing and why, not just which components are old.</p>
+      <p class="hint">Darker cells show asset groups needing far more repairs per home than the borough average.</p>
+    </div>
+    <div class="step" data-step="overview">
+      <p>The tool uses this to prioritise investment, optimising spend by year and investment type. It tells housing providers <b>what to do, at which homes and when</b>.</p>
+    </div>
+    <div class="step" data-step="overview-top">
+      <p>We believe this data-driven approach is the first of its kind for housing providers. It lets them make confident, validated choices about where to spend their money.</p>
+      <p>The same methodology can support regulatory reviews and help explain decisions to council tenants and leaseholders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT 2: SOMETHING IS MISSING ═══════════════ -->
+<section class="interstitial">
+  <h2>But something is missing</h2>
+  <p>Housing investment is optimised to achieve better physical homes. It could do a lot more.</p>
+</section>
+
+<section class="scrolly" id="act2">
+  <div class="graphic">
+    <div class="frame" id="frame2" data-state="evidence">
+      <div class="chrome">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="chrome-title">Home by Home · Intelligence Portal</span>
+        <span class="chrome-tab" id="tab2">Evidence</span>
+      </div>
+      <div class="stage hbh">
+        <div class="panel" id="p-evidence">
+          <div class="evidence">
+            <div class="ev-cause">
+              <div class="ev-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64"><path d="M8 30 32 10l24 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M14 26v28h36V26" fill="none" stroke="currentColor" stroke-width="4"/><path d="M28 54V40h8v14" fill="none" stroke="currentColor" stroke-width="4"/></svg>
+              </div>
+              <div>A warmer home</div>
+            </div>
+            <div class="ev-arrow" aria-hidden="true"></div>
+            <div class="ev-stats">
+              <div class="ev-stat"><b data-count="6.5">6.5%</b><span>fewer GP visits for asthma events</span></div>
+              <div class="ev-stat"><b data-count="10">10%+</b><span>fewer broader respiratory events</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel" id="p-links">
+          <div class="links">
+            <div class="link-row"><div class="lk-home">Cold, damp homes</div><div class="lk-line"></div><div class="lk-health">Asthma &amp; COPD</div></div>
+            <div class="link-row"><div class="lk-home">Heat stress / overheating</div><div class="lk-line"></div><div class="lk-health">Cardiac problems</div></div>
+            <div class="link-row"><div class="lk-home">Home archetype &amp; layout</div><div class="lk-line"></div><div class="lk-health">Falls &amp; burns</div></div>
+            <p class="links-note">Each housing condition has a measurable health consequence, and a matching investment that could prevent it.</p>
+          </div>
+        </div>
+        <div class="panel" id="p-qof">
+          <div class="card fill map-card">
+            <div id="qof-map" class="map"></div>
+            <div class="map-legend" id="qof-legend"></div>
+          </div>
+        </div>
+        <div class="panel" id="p-whf">
+          <div class="whf-top">
+            <div class="card whf-filters">
+              <div class="card-title">Programme filters</div>
+              <div class="chips"><span class="chip on">Flat</span><span class="chip on">House</span><span class="chip on">Maisonette</span><span class="chip on">Bungalow</span></div>
+              <div class="chk">✓ Social rented homes only</div>
+              <div class="chk">✓ EPC D–G, fabric due by 2030, or recurring mould</div>
+            </div>
+            <div class="card whf-health" id="whf-health">
+              <div class="whf-health-head">
+                <div class="card-title" style="margin:0">Health targeting</div>
+                <span class="toggle" id="whf-toggle"><i></i></span>
+              </div>
+              <div class="whf-lbl">COPD &amp; asthma prevalence in the home's area <b id="whf-thr"></b></div>
+              <div class="range"><div class="range-fill" id="whf-range"></div></div>
+            </div>
+          </div>
+          <div class="kpi-row" id="whf-kpis"></div>
+          <div class="card map-card whf-mapcard"><div id="whf-map" class="map"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step" data-step="evidence">
+      <p>Scientific evidence shows that warmer homes reduce GP visits for asthma events by <b>6.5%</b>, and broader respiratory events by <b>over 10%</b>.<sup><a href="#sources">1</a></sup></p>
+      <p>When selecting homes for retrofit, we should therefore target the homes where these conditions are more likely.</p>
+    </div>
+    <div class="step" data-step="links">
+      <p>And it doesn't stop at cold. Heat stress in homes can lead to more cardiac problems. Certain home archetypes can lead to more falls, or more severe ones.</p>
+    </div>
+    <div class="step" data-step="qof">
+      <p>We can take <b>QOF data</b>, GP-level indicators of how common each condition is, and map it across the housing stock.</p>
+      <p>That gives a completely new way to categorise homes, and lets investment programmes shift their focus towards homes where residents have particular needs.</p>
+      <p class="hint">Shown: COPD &amp; asthma prevalence by neighbourhood (LSOA).</p>
+    </div>
+    <div class="step" data-step="whf">
+      <p>The same data can be used to design and deliver pre-emptive public health interventions.</p>
+      <p>Here is the tool's Warm Homes programme builder. It lists every social home that qualifies for retrofit on physical grounds: poor EPC, fabric due for replacement, or recurring mould.</p>
+    </div>
+    <div class="step" data-step="whf-health">
+      <p>Now we target homes not only on their physical condition, but on relevant health conditions too.</p>
+      <p>Let's assume that <b>higher asthma propensity</b> should help prioritise where investment goes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ COMPARISON ═══════════════ -->
+<section class="compare" id="compare">
+  <div class="compare-head">
+    <div class="kicker dark">Same budget, different homes</div>
+    <h2>Two ways to choose 1,000 homes for retrofit</h2>
+    <p>Both lists are drawn from the same pool of <b id="cmp-pool"></b> social rented homes that already qualify for retrofit. The only difference is whether health is considered.</p>
+  </div>
+
+  <div class="cmp-grid">
+    <div class="cmp-col">
+      <div class="cmp-label home"><span class="sw"></span>Without health</div>
+      <p class="cmp-method">Ranked on damp &amp; mould repairs, retrofit need (SAP score) and a low leaseholder share in the asset group, weighted equally.</p>
+      <div class="cmp-map-wrap hbh"><div id="map-home" class="map"></div></div>
+    </div>
+    <div class="cmp-col">
+      <div class="cmp-label health"><span class="sw"></span>With health</div>
+      <p class="cmp-method">The same score, combined 50 : 50 with the COPD &amp; asthma prevalence of the home's neighbourhood.</p>
+      <div class="cmp-map-wrap hbh"><div id="map-health" class="map"></div></div>
+    </div>
+  </div>
+  <div class="cmp-legend">
+    <span><i class="dot home"></i>Only on the list without health</span>
+    <span><i class="dot health"></i>Only on the list with health</span>
+    <span><i class="dot both"></i>On both lists</span>
+    <span><i class="sq"></i>Background shading: COPD &amp; asthma prevalence</span>
+  </div>
+
+  <div class="cmp-findings">
+    <div class="cmp-overlap" id="cmp-overlap"></div>
+    <table class="cmp-table" id="cmp-table"></table>
+  </div>
+
+  <div class="cmp-text">
+    <p class="callout">One list targets homes because of their fabric. The other targets people whose health outcomes are partly driven by their homes.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ CLOSE ═══════════════ -->
+<section class="closing">
+  <h2>Health data should shape every housing investment</h2>
+  <p>The same applies across other health metrics and home investments.</p>
+  <div class="pairs">
+    <div class="pair"><div class="pair-h">Asthma &amp; COPD</div><div class="pair-plus">↔</div><div class="pair-i">Warmth, insulation &amp; damp remediation</div></div>
+    <div class="pair"><div class="pair-h">Cardiovascular disease</div><div class="pair-plus">↔</div><div class="pair-i">Overheating mitigation</div></div>
+    <div class="pair"><div class="pair-h">Falls &amp; burns</div><div class="pair-plus">↔</div><div class="pair-i">Home adaptations</div></div>
+  </div>
+  <p class="closing-big">In none of these is health data driving asset investment decisions.</p>
+  <div class="cta">
+    <p>We'd like to change that, and we are looking for partners to work with us on it.</p>
+    <a class="cta-btn" href="mailto:balazs.csuvar@dgcities.com?subject=Health%20%2B%20housing%20investment">Send us your thoughts</a>
+    <p class="cta-alt">balazs.csuvar@dgcities.com · <a href="https://www.dgcities.com" target="_blank" rel="noopener">dgcities.com</a></p>
+  </div>
+</section>
+
+<footer class="foot" id="sources">
+  <p><b>Sources &amp; notes</b></p>
+  <ol>
+    <!-- TODO: add the full citation for the 6.5% / 10% figures -->
+    <li>Effect of warmer homes on GP visits for asthma and respiratory events. [Citation to be added.]</li>
+  </ol>
+  <p>Housing data: Home by Home portal extract for a London borough's housing stock, April 2023 – March 2026. Addresses are not included in this page. Health indicators are QOF prevalence rates for each 2011 LSOA. They describe the neighbourhood, not the household. The comparison is illustrative and not a programme recommendation.</p>
+  <p>© DG Cities</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.min.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
