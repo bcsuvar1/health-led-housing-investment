@@ -309,19 +309,13 @@ function initScroll() {
   setState('frame2', 'evidence');
 }
 
-function initHbhPopup() {
-  const pop = $('hpop'), target = document.querySelector('.closing');
-  let closed = false;
-  try { closed = sessionStorage.getItem('hpop-closed') === '1'; } catch (e) {}
-  if (!pop || !target || closed) return;
-  pop.hidden = false;
+function initXlink() {
+  const card = document.querySelector('.xlink');
+  if (!card) return;
+  if (!('IntersectionObserver' in window)) { card.classList.add('on'); return; }
   new IntersectionObserver((es, o) => es.forEach(e => {
-    if (e.isIntersecting) { pop.classList.add('show'); o.disconnect(); }
-  }), {threshold: .3}).observe(target);
-  $('hpop-x').addEventListener('click', () => {
-    pop.classList.remove('show');
-    try { sessionStorage.setItem('hpop-closed', '1'); } catch (e) {}
-  });
+    if (e.isIntersecting) { card.classList.add('on'); o.disconnect(); }
+  }), {threshold: .3}).observe(card);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -332,6 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initWhf();
   initCompare();
   initScroll();
-  initHbhPopup();
+  initXlink();
   window.addEventListener('resize', () => [ovMap, qofMap, whfMap, ...cmpMaps].forEach(m => m && m.invalidateSize()));
 });
