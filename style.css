@@ -205,6 +205,12 @@ a{color:var(--dg-green)}
 .cta-btn:hover{transform:translateY(-2px)}
 .cta .cta-alt{font-size:14px;margin-top:16px;color:#B9D3C9}
 .cta-alt a{color:var(--dg-lime)}
+.related{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;max-width:900px;margin:72px auto 0;padding:22px 28px;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(207,239,108,.35);border-radius:16px;text-decoration:none;color:#fff;transition:transform .2s,background .2s}
+.related:hover{transform:translateY(-2px);background:rgba(255,255,255,.11)}
+.related-kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--dg-lime);color:var(--dg-green);padding:4px 12px;border-radius:20px;white-space:nowrap}
+.related-text{font-size:16px;line-height:1.5;color:#D6E7E0}
+.related-go{font-weight:600;color:var(--dg-lime);white-space:nowrap}
+@media (max-width:700px){.related{grid-template-columns:1fr;gap:12px;justify-items:start}}
 .foot{max-width:900px;margin:0 auto;padding:40px 24px 60px;font-size:13px;color:var(--muted)}
 .foot ol{padding-left:18px}
 
