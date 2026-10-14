@@ -218,7 +218,8 @@ a{color:var(--dg-green)}
 .xlink .xlink-btn{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;background:#CFEF6C;color:#035341;text-decoration:none;font-weight:600;font-size:15px;padding:13px 26px;border-radius:40px;transition:transform .2s}
 .xlink .xlink-btn:hover{transform:translateY(-2px)}
 .xlink-btn span{transition:transform .2s}.xlink-btn:hover span{transform:translateX(3px)}
-@media (max-width:760px){.xlink{grid-template-columns:1fr;gap:16px;padding:26px 22px}.xlink-icon{width:50px;height:50px}.xlink-icon svg{width:30px;height:30px}}
+.xlink-wrap{padding:80px 24px 0}.xlink-wrap .xlink{margin:0 auto}
+@media (max-width:760px){.xlink-wrap{padding:60px 16px 0}.xlink{grid-template-columns:1fr;gap:16px;padding:26px 22px}.xlink-icon{width:50px;height:50px}.xlink-icon svg{width:30px;height:30px}}
 .foot{max-width:900px;margin:0 auto;padding:40px 24px 60px;font-size:13px;color:var(--muted)}
 .foot ol{padding-left:18px}
 
